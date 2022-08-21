@@ -7,7 +7,7 @@ from datetime import datetime, timezone
 import os
 
 arg_parser = argparse.ArgumentParser()
-arg_parser.add_argument('--error', dest='error_message', action='append', help='Sets error message in text box')
+arg_parser.add_argument('--report_path', dest='report_path', action='append', help='Path to crash report file')
 args = arg_parser.parse_args()
 
 pastebin_api_url = 'https://pastebin.com/api/api_post.php'
@@ -19,13 +19,16 @@ Thanks for reporting error to us, you're helping to improve the engine!
 
 
 class GrafexCrashHandler(tk.Tk):
-    def __init__(self, error_msg: str):
+    def __init__(self, report_path: str):
         super().__init__()
 
-        self.error_message = error_msg
+        self.crash_handler_file = report_path
 
-        if error_msg is None:
-            raise Exception('Invalid error message')
+        if report_path is None or not os.path.exists(self.crash_handler_file):
+            raise Exception('Invalid crash report file path')
+
+        with open(file=self.crash_handler_file, mode='r', encoding='UTF-8', newline='') as handle:
+            self.error_message = handle.read()
 
         self.title('Grafex Engine: Crash Handler')
         self.geometry(f"{int(self.winfo_screenwidth() / 3)}x{int(self.winfo_screenheight() / 1.5)}")
@@ -85,8 +88,8 @@ class GrafexCrashHandler(tk.Tk):
 
 
 if __name__ == "__main__":
-    if not args.error_message:
-        raise Exception('Invalid error message')
+    if not args.report_path:
+        raise Exception('Invalid crash report file path')
 
-    CrashHandler = GrafexCrashHandler(args.error_message[0])
+    CrashHandler = GrafexCrashHandler(args.report_path[0])
     CrashHandler.mainloop()
