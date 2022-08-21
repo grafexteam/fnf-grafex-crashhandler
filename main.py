@@ -5,7 +5,6 @@ import argparse
 import requests
 from datetime import datetime, timezone
 import os
-import sys
 
 arg_parser = argparse.ArgumentParser()
 arg_parser.add_argument('--error', dest='error_message', action='append', help='Sets error message in text box')
