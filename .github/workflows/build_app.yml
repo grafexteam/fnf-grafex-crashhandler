@@ -25,10 +25,8 @@ jobs:
         pip install -r requirements.txt;
     - name: Build using pyinstaller
       run: | 
-        pyinstaller --noconsole --name="GrafexCrashHandler" --icon="./resources/icon.ico" --onefile --noupx main.py
-        echo $(ls)
-        echo $(ls ./dist)
+        pyinstaller --noconsole --name="GrafexCrashHandler.exe" --icon="./resources/icon.ico" --onefile --noupx main.py
     - name: Publish artifacts
       uses: actions/upload-artifact@v3
       with:
-        path: dist/GrafexCrashHandler.exe
+        path: ./dist/GrafexCrashHandler.exe
