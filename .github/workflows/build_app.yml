@@ -1,7 +1,7 @@
 # This workflow will install Python dependencies, run tests and lint with a single version of Python
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
 
-name: Build App
+name: Grafex Crash Handler App
 
 on:
   push:
@@ -28,3 +28,7 @@ jobs:
         pip install -r requirements.txt;
     - name: Build using pyinstaller
       run: pyinstaller --noconsole --name="GrafexCrashHandler" --icon="./resources/icon.ico" --onefile --noupx main.py
+    - name: Publish artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        path: dist/GrafexCrashHandler.exe
