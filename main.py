@@ -1,14 +1,20 @@
 import tkinter as tk
 from tkinter import messagebox
 from PIL import ImageTk, Image
-import argparse
 import requests
 from datetime import datetime, timezone
 import os
+import sys
 
-arg_parser = argparse.ArgumentParser()
-arg_parser.add_argument('--report_path', dest='report_path', action='append', help='Path to crash report file')
-args = arg_parser.parse_args()
+# arg_parser = argparse.ArgumentParser()
+# arg_parser.add_argument('--report_path', dest='report_path', action='append', help='Path to crash report file')
+# args = arg_parser.parse_args()
+
+if len(sys.argv) <= 1:
+    raise Exception('Not enough arguments')
+
+
+report_file_path = str(sys.argv[1])
 
 pastebin_api_url = 'https://pastebin.com/api/api_post.php'
 github_issue_url = 'https://github.com/grafexteam/fnf-grafex/issues/new/choose'
@@ -33,10 +39,10 @@ class GrafexCrashHandler(tk.Tk):
         self.title('Grafex Engine: Crash Handler')
         self.geometry(f"{int(self.winfo_screenwidth() / 3)}x{int(self.winfo_screenheight() / 1.5)}")
         self.resizable(False, False)
-        self.iconbitmap('resources/icon.ico')
+        self.iconbitmap('./icon.ico')
         self.update()
-        self.logo_img = ImageTk.PhotoImage(Image.open("resources/logo.png").resize((int(self.winfo_width() / 2),
-                                                                                    int(self.winfo_height() / 4))))
+        self.logo_img = ImageTk.PhotoImage(Image.open("./assets/images/logo.png").resize((int(self.winfo_width() / 2),
+                                                                                          int(self.winfo_height() / 4))))
 
         logo = tk.Label(master=self, image=self.logo_img)
         logo.pack(side=tk.TOP, pady=5)
@@ -84,12 +90,12 @@ class GrafexCrashHandler(tk.Tk):
 
     def close_handler(self):
         self.destroy()
-        exit()
+        sys.exit(-1)
 
 
 if __name__ == "__main__":
-    if not args.report_path:
+    if not report_file_path:
         raise Exception('Invalid crash report file path')
 
-    CrashHandler = GrafexCrashHandler(args.report_path[0])
+    CrashHandler = GrafexCrashHandler(report_file_path)
     CrashHandler.mainloop()
