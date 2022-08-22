@@ -27,6 +27,7 @@ jobs:
       run: | 
         pyinstaller --noconsole --name="GrafexCrashHandler" --icon="./resources/icon.ico" --onefile --noupx main.py
         echo $(ls)
+        echo $(ls ./dist)
     - name: Publish artifacts
       uses: actions/upload-artifact@v3
       with:
