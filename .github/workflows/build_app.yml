@@ -29,4 +29,5 @@ jobs:
     - name: Publish artifacts
       uses: actions/upload-artifact@v3
       with:
+        name: grafex-crash-handler-artifacts
         path: ./dist/GrafexCrashHandler.exe
